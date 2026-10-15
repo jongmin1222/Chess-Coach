@@ -95,7 +95,7 @@ ollama pull qwen2.5:7b      # 처음 한 번, 약 5GB
 chess-coach analyze examples/sample_game.pgn --color black
 ```
 
-### 1. My own game
+### 1. Own game
 
 ```bash
 chess-coach fetch <내-chesscom-아이디> --count 5 --time-class rapid
