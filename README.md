@@ -181,7 +181,7 @@ chess-coach kb search "rook behind passed pawn"
 기준값은 `src/chess_coach/scoring.py`의 `DEFAULT_THRESHOLDS`에서 바꿀 수 있습니다.
 `summary.accuracy`는 단순 평균 기반 근사치라서 chess.com·Lichess의 정확도 값과 다를 수 있습니다.
 
-## 문제 해결
+## Trouble shooting
 
 | 증상 | 해결 |
 |---|---|
@@ -195,7 +195,7 @@ chess-coach kb search "rook behind passed pawn"
 | LLM 응답이 엉뚱하거나 다른 언어가 섞임 | `--level` 조정, 재실행, `--show-prompt`로 입력 확인 |
 | `chess.com API 오류` / 요청 제한 | 잠시 후 재시도하거나 사이트에서 PGN을 직접 내려받아 사용 |
 
-## 프로젝트 구조
+## Architecture
 
 ```
 scripts/setup_linux.sh   # 리눅스 설치 도우미
