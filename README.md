@@ -1,4 +1,5 @@
 # Chess-Coach ♟️
+<img width="795" height="498" alt="image" src="https://github.com/user-attachments/assets/a1131961-8062-4a30-831e-baa1919dc52e" />
 
 내 체스 게임(PGN)을 **Stockfish**로 분석하고, 그 결과를 **내 PC에서 돌아가는 LLM(기본: Qwen2.5-7B)** 에게 넘겨 복기 피드백을 받는 도구입니다.
 서버·유료 API 없이 전부 로컬(리눅스)에서 동작하고, 게임 데이터가 내 PC 밖으로 나가지 않습니다.
