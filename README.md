@@ -34,7 +34,7 @@ LLM (RAG) ── Stockfish의 판단을 바탕으로 RAG로 다양한 전략 참
 
 `analyze` 명령(엔진 분석 → JSON)은 Ollama 없이도 동작합니다. 위 명령은 Ubuntu/Debian 기준이며, Fedora는 `dnf`, Arch는 `pacman`으로 같은 패키지를 설치하면 됩니다.
 
-## Quick start
+## Get started
 
 ```bash
 git clone https://github.com/jongmin1222/chess-coach.git
@@ -49,7 +49,7 @@ bash scripts/setup_linux.sh
 source .venv/bin/activate
 ```
 
-### Manual install
+### Installation
 
 ```bash
 python3 -m venv .venv
