@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chess-coach"
+version = "0.1.0"
+description = "Stockfish 분석 + 로컬 LLM으로 내 체스 게임을 복기해주는 무료 로컬 코치"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["python-chess>=1.10"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+chess-coach = "chess_coach.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+chess_coach = ["knowledge_base/*.md"]

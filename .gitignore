@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.env
+
+# 로컬 실행 결과물
+/games*.pgn
+/result*.json
+/feedback*.md
+/out/
+
+# 내 책/노트 지식 베이스 (저작권 있는 자료가 들어갈 수 있으므로 올리지 않습니다)
+/knowledge/
