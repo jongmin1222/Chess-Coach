@@ -6,7 +6,7 @@
 > **v0.1** — PGN → Stockfish 분석 → 핵심 장면 선별 → 로컬 LLM 피드백까지 동작하는 코어입니다.
 > MCP 서버와 RAG(체스 지식 검색)는 [로드맵](#로드맵)에 있습니다.
 
-## 어떻게 동작하나요?
+## How it works?
 
 ```
 PGN 파일 (chess.com 등)
@@ -23,7 +23,7 @@ Stockfish  ── 수마다 평가값 계산 (승률 손실로 실수/블런더 
 핵심 설계: **수의 좋고 나쁨은 Stockfish가 판단하고, LLM은 그것을 사람이 이해할 말로 풀어 쓰기만 합니다.**
 프롬프트에서 엔진 데이터에 없는 내용은 말하지 못하게 제한합니다.
 
-## 요구사항 (모두 무료)
+## Requirements
 
 | 필요한 것 | 용도 | 설치 |
 |---|---|---|
@@ -34,7 +34,7 @@ Stockfish  ── 수마다 평가값 계산 (승률 손실로 실수/블런더 
 
 `analyze` 명령(엔진 분석 → JSON)은 Ollama 없이도 동작합니다. 위 명령은 Ubuntu/Debian 기준이며, Fedora는 `dnf`, Arch는 `pacman`으로 같은 패키지를 설치하면 됩니다.
 
-## 빠른 설치
+## Quick start
 
 ```bash
 git clone https://github.com/<내-깃허브-아이디>/chess-coach.git
@@ -49,7 +49,7 @@ bash scripts/setup_linux.sh
 source .venv/bin/activate
 ```
 
-### 수동 설치
+### Manual install
 
 ```bash
 python3 -m venv .venv
@@ -58,7 +58,7 @@ pip install -e .
 cp .env.example .env
 ```
 
-### Stockfish 경로
+### Stockfish path
 
 `apt`로 설치하면 `/usr/games/stockfish`에 들어가는데, 이 경로는 자동으로 찾습니다. 직접 받은 바이너리를 쓴다면:
 
@@ -71,7 +71,7 @@ STOCKFISH_PATH=/home/me/stockfish/stockfish-ubuntu-x86-64-avx2
 
 `--engine <경로>` 옵션으로도 지정할 수 있습니다. 탐색 순서는 `--engine` → `STOCKFISH_PATH` → PATH → 흔한 설치 위치입니다.
 
-### 로컬 LLM (Ollama)
+### LLM (Ollama)
 
 ```bash
 ollama pull qwen2.5:7b      # 처음 한 번, 약 5GB
@@ -84,9 +84,9 @@ ollama pull qwen2.5:7b      # 처음 한 번, 약 5GB
 - 모델 변경: `--model <이름>` 옵션 또는 `.env`의 `CHESS_COACH_MODEL`. 사용 가능한 이름은 [ollama.com/library](https://ollama.com/library)에서 확인하세요.
 - Ollama 서버가 꺼져 있으면 `ollama serve` (systemd로 설치했다면 `sudo systemctl start ollama`).
 
-## 사용법
+## Usage
 
-### 0. 샘플로 먼저 확인
+### 0. Example
 
 저장소에 모건의 "오페라 게임"이 들어 있습니다. (백이 이긴 게임이므로 흑 입장에서 분석합니다.)
 
@@ -94,7 +94,7 @@ ollama pull qwen2.5:7b      # 처음 한 번, 약 5GB
 chess-coach analyze examples/sample_game.pgn --color black
 ```
 
-### 1. 내 게임 가져오기
+### 1. My own game
 
 ```bash
 chess-coach fetch <내-chesscom-아이디> --count 5 --time-class rapid
@@ -103,7 +103,7 @@ chess-coach games games.pgn          # 게임 목록 확인
 
 chess.com 사이트에서 PGN을 직접 내려받아 써도 됩니다. `fetch`는 chess.com 공개 API를 쓰므로 이용 약관과 호출 제한을 지켜주세요. `.env`의 `CHESSCOM_CONTACT`에 연락처를 적어두면 좋습니다.
 
-### 2. 분석만 하기 (LLM 없이)
+### 2. Analyze (W/O LLM)
 
 ```bash
 chess-coach analyze games.pgn --game 1 --user <내-chesscom-아이디> --out result.json
@@ -115,7 +115,7 @@ chess-coach analyze games.pgn --game 1 --user <내-chesscom-아이디> --out res
 - `--threads N`: 엔진 스레드 수 (기본: CPU 스레드의 절반)
 - `--full`: 모든 수의 분석 결과까지 JSON에 포함.
 
-### 3. 로컬 LLM에게 피드백 받기
+### 3. Feedback with LLM
 
 ```bash
 chess-coach coach games.pgn --game 1 --user <내-chesscom-아이디> --level beginner
@@ -127,7 +127,7 @@ chess-coach coach games.pgn --game 1 --user <내-chesscom-아이디> --level beg
 - `--no-rag`: 참고 자료 검색을 끄고 엔진 분석만으로 피드백 (기본은 RAG 켜짐)
 - `--kb-dir`, `--kb-top-k`, `--kb-budget`: 내 책 폴더 / 장면당 자료 수 / 자료 총량 조절
 
-### 4. 지식 베이스(RAG): 오프닝·전략 자료로 피드백 보강
+### 4. RAG: (Opening/Middle game/End game) strategy
 
 내장 노트 49개(오프닝 20개 + 전략·전술·엔드게임 원칙)가 기본으로 검색에 쓰이고, 내가 가진 책을 추가할 수도 있습니다.
 
@@ -137,9 +137,9 @@ chess-coach kb list
 chess-coach kb search "rook behind passed pawn"
 ```
 
-피드백 끝에는 실제로 인용된 자료만 `## 참고 자료` 로 붙습니다. 자세한 동작 방식, 책 추가, 노트 작성법, 한계는 [docs/KNOWLEDGE.md](docs/KNOWLEDGE.md) 를 보세요.
+피드백 끝에는 실제로 인용된 자료만 `## 참고 자료` 로 붙습니다. 
 
-### 리포트 JSON 형식 (요약)
+### Report JSON format
 
 ```jsonc
 {
@@ -166,7 +166,7 @@ chess-coach kb search "rook behind passed pawn"
 
 위는 필드 구성을 보여주는 **형식 예시**이며 실제 분석 결과 값이 아닙니다.
 
-### 분류 기준
+### Threshold
 
 수를 두기 전과 후의 **승률 차이**로 분류합니다. (평가값 → 승률 변환은 Lichess가 공개한 근사식 사용)
 
@@ -221,7 +221,7 @@ examples/         # 샘플 PGN
 docs/             # 배포 안내
 ```
 
-## 테스트
+## Test
 
 ```bash
 source .venv/bin/activate
@@ -230,7 +230,7 @@ pytest
 
 엔진 분석 테스트는 Stockfish 대신 미리 정해둔 평가값을 쓰므로 Stockfish 없이도 실행됩니다.
 
-## 로드맵
+## Loadmap
 
 - [x] **v0.1** PGN → Stockfish → 핵심 장면 → 로컬 LLM 피드백 (CLI)
 - [x] **v0.2** RAG: 오프닝·전술 패턴·엔드게임 지식 문서 검색 반영
@@ -238,7 +238,7 @@ pytest
 - [ ] RAG 개선: 임베딩 검색 병행, 반복 실수 유형별 자료 추천
 - [ ] 분석 결과 캐시(SQLite), 반복 실수 유형 추적, 로컬 웹 보드 뷰어
 
-## 라이선스와 출처
+## License & Reference
 
 - 이 저장소의 코드: [MIT License](LICENSE)
 - **Stockfish**는 GPLv3 프로그램입니다. 이 저장소에 포함하지 않으며, 사용자가 직접 설치해 별도 프로세스로 실행합니다.
