@@ -37,7 +37,7 @@ Stockfish  ── 수마다 평가값 계산 (승률 손실로 실수/블런더 
 ## Quick start
 
 ```bash
-git clone https://github.com/<내-깃허브-아이디>/chess-coach.git
+git clone https://github.com/jongmin1222/chess-coach.git
 cd chess-coach
 bash scripts/setup_linux.sh
 ```
